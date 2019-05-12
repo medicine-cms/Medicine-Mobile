@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.pharma">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_logo_cut"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_logo_cut_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".PrescriptionActivity" />
+        <activity android:name=".DoctorActivity" />
+        <activity android:name=".NewPasswordActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".RegisterActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".AlarmReceiver" />
+    </application>
+
+</manifest>
