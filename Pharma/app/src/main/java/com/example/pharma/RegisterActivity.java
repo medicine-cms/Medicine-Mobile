@@ -113,13 +113,18 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Lütfen Doğum Tarihinizi Giriniz", Toast.LENGTH_LONG).show();
 
                         }
+                        else if (Name.contains("ş|ç|ğ|Ş|Ç|Ş") ||LName.contains("ş|ç|ğ|Ş|Ç|Ş") ) {
+                            Toast.makeText(RegisterActivity.this, "Lütfen 'ş', 'ç', 'ğ' Karakterleri Kullanmayınız!", Toast.LENGTH_LONG).show();
+
+                        }
 
                         else {
 
                             try {
                                 con = dbConnector.connectionclass();        // Connect to database
                                 if (con == null) {
-                                    msg = "Check Your Internet Access!";
+                                    msg = "İnternet Bağlantınızı Kontrol Edin!";
+                                    Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 } else {
                                     Statement stmt = con.createStatement();
                                     String query2 = "select * from HASTA where Hasta_TC_Kimlik_No='" +TC+"'";

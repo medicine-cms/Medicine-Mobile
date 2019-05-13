@@ -1,9 +1,12 @@
 package com.example.pharma;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -52,9 +55,25 @@ public class DoctorActivity extends AppCompatActivity {
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         Intent intent = getIntent();
-        hasta_tc = intent.getStringExtra("hastaid");
+        hasta_tc = intent.getStringExtra("hastatc");
 
         welcome = (TextView) findViewById(R.id.textView);
+
+//        AlertDialog dialog = new AlertDialog.Builder(this)
+//                .setTitle("Deneme")
+//                .setMessage("Deneme1")
+//                .setPositiveButton("Evet", this)
+//                .setNegativeButton("Hayır", this)
+//                .show();
+//
+//        Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        positiveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(DoctorActivity.this,MainActivity.class);
+//                DoctorActivity.this.startActivity(intent);
+//            }
+//        });
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -85,7 +104,9 @@ public class DoctorActivity extends AppCompatActivity {
             con = dbConnector.connectionclass(); // Connect to database
             if (con == null)
             {
-                msg = "Check Your Internet Access!";
+                msg = "İnternet Bağlantınızı Kontrol Edin!";
+                Toast.makeText(DoctorActivity.this, msg, Toast.LENGTH_SHORT).show();
+
             }
             else
             {
@@ -97,13 +118,14 @@ public class DoctorActivity extends AppCompatActivity {
                     hasta_soyad = rs.getString("Hasta_Soyad");
                     hasta_id = rs.getString("Hasta_ID");
                 }
-                List<Button> buttonlist = new ArrayList<>();
                 try
                 {
                     con = dbConnector.connectionclass();// Connect to database
                     if (con == null)
                     {
-                        msg = "Check Your Internet Access!";
+                        msg = "İnternet Bağlantınızı Kontrol Edin!";
+                        Toast.makeText(DoctorActivity.this, msg, Toast.LENGTH_SHORT).show();
+
                     }
                     else
                     {
@@ -204,8 +226,25 @@ public class DoctorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(DoctorActivity.this,MainActivity.class);
-        DoctorActivity.this.startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage("Çıkış Yapmak İstiyor Musunuz?");
+        builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent i = new Intent(DoctorActivity.this,MainActivity.class);
+                DoctorActivity.this.startActivity(i);
+            }
+        });
+        builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
 
@@ -224,7 +263,6 @@ public class DoctorActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d("mesaj", "stop");
-
     }
 
     @Override

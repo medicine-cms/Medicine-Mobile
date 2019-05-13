@@ -79,7 +79,7 @@
                         android:ems="10"
                         android:gravity="center"
                         android:hint="T.C Kimlik No."
-                        android:inputType="textPersonName"
+                        android:inputType="numberDecimal"
                         android:textColor="@android:color/background_light"
                         android:textColorHint="#ffffff"
                         android:textSize="20sp"

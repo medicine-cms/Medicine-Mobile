@@ -2,12 +2,14 @@ package com.example.pharma;
 
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,7 +19,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     Button back, newpwd;
     EditText tcno,serino;
-    private static String hasta_id, hasta_seri;
+    private static String hasta_tc, hasta_seri;
 
     Connection con;
     DBConnector dbConnector;
@@ -49,34 +51,46 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         newpwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hasta_id = tcno.getText().toString();
+                hasta_tc = tcno.getText().toString();
                 hasta_seri = serino.getText().toString();
-                if (hasta_id.trim().equals("") || hasta_seri.trim().equals(""))
-                    z = "Please enter Username and Password";
+                if (hasta_tc.trim().equals("") || hasta_seri.trim().equals("")){
+                    z = "Lütfen T.C No ve Seri No Giriniz";
+                Toast.makeText(ForgotPasswordActivity.this, z, Toast.LENGTH_SHORT).show();
+                }
+
                 else {
                     try {
                         con = dbConnector.connectionclass(); // Connect to database
                         if (con == null) {
-                            z = "Check Your Internet Access!";
+                            z = "İnternet Bağlantınızı Kontrol Edin!";
+                            Toast.makeText(ForgotPasswordActivity.this, z, Toast.LENGTH_SHORT).show();
+
                         } else {
-                            String query = "select * from HASTA where Hasta_TC_Kimlik_No= '" + hasta_id.toString() + "' and Hasta_SeriNo = '" + hasta_seri.toString() + "'  ";
+                            String query = "select * from HASTA where Hasta_TC_Kimlik_No= '" + hasta_tc + "' and Hasta_SeriNo = '" 
+                                    + hasta_seri + "'";
                             Statement stmt = con.createStatement();
                             ResultSet rs = stmt.executeQuery(query);
                             if (rs.next()) {
                                 z = "Bilgiler Doğrulandı";
+                                Toast.makeText(ForgotPasswordActivity.this, z, Toast.LENGTH_SHORT).show();
+
                                 isSuccess = true;
                                 con.close();
                                 Intent intent = new Intent(ForgotPasswordActivity.this,NewPasswordActivity.class);
-                                intent.putExtra("name",String.valueOf(hasta_id));
+                                intent.putExtra("hastatc",String.valueOf(hasta_tc));
                                 ForgotPasswordActivity.this.startActivity(intent);
                             } else {
-                                z = "Invalid Credentials!";
+                                z = "Geçersiz T.C No veya Seri No";
+                                Toast.makeText(ForgotPasswordActivity.this, z, Toast.LENGTH_SHORT).show();
+
                                 isSuccess = false;
                             }
                         }
                     } catch (Exception ex) {
                         isSuccess = false;
                         z = ex.getMessage();
+                        Toast.makeText(ForgotPasswordActivity.this, z, Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -95,7 +109,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d("mesaj", "stop");
-
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.pharma;
 
 public class Detail {
-    private String KSekli, KDozu, KSure, KAralık, IAdi;
+    private String KSekli, KDozu, KSure, KAralik, IAdi;
 
     public void setKSekli(String kSekli) {
         this.KSekli = kSekli;
@@ -27,16 +27,16 @@ public class Detail {
         return KSure;
     }
 
-    public void setKAralık(String kAralık) {
-        this.KAralık = kAralık;
+    public void setKAralik(String KAralik) {
+        this.KAralik = KAralik;
     }
 
-    public String getKAralık() {
-        return KAralık;
+    public String getKAralik() {
+        return KAralik;
     }
 
-    public void setIAdi(String ıAdi) {
-        this.IAdi = ıAdi;
+    public void setIAdi(String iAdi) {
+        this.IAdi = iAdi;
     }
 
     public String getIAdi() {
