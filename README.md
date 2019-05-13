@@ -1,3 +1,3 @@
 # Medicine-Mobile
 
-<a href="https://giphy.com/gifs/KZYRvSW6MtGet4xKbg"></a>
+https://giphy.com/gifs/KZYRvSW6MtGet4xKbg/html5
