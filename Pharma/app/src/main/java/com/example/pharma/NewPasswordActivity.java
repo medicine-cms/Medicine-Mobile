@@ -1,6 +1,7 @@
 package com.example.pharma;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +23,6 @@ public class NewPasswordActivity extends AppCompatActivity {
     Connection con;
     DBConnector dbConnector;
 
-    String z = "";
     Boolean isSuccess = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class NewPasswordActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.btnBack);
         savepwd = (Button) findViewById(R.id.btnSave);
         Intent intent = getIntent();
-        hasta_tc = intent.getStringExtra("name");
+        hasta_tc = intent.getStringExtra("hastatc");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +105,6 @@ public class NewPasswordActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d("mesaj", "stop");
-
     }
 
     @Override

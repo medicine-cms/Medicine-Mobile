@@ -68,7 +68,7 @@ public class DetailActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
                         Intent i1 = new Intent(DetailActivity.this,DoctorActivity.class);
-                        i1.putExtra("name",String.valueOf(hasta_tc));
+                        i1.putExtra("hastatc",String.valueOf(hasta_tc));
                         startActivity(i1);
                         Toast.makeText(DetailActivity.this, "Anasayfa", Toast.LENGTH_SHORT).show();
                         break;
@@ -94,7 +94,9 @@ public class DetailActivity extends AppCompatActivity {
             con = dbConnector.connectionclass();
             if (con == null)
             {
-                msg = "Check Your Internet Access!";
+                msg = "İnternet Bağlantınızı Kontrol Edin!";
+                Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+
             }
             else
             {
@@ -107,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
                     detail.setKSekli(rs.getString("Kullanim_Sekli"));
                     detail.setKDozu(rs.getString("Kullanim_Dozu"));
                     detail.setKSure(rs.getString("Max_Kullanim_Suresi"));
-                    detail.setKAralık(rs.getString("Kullanim_Araligi"));
+                    detail.setKAralik(rs.getString("Kullanim_Araligi"));
                     detail.setIAdi(rs.getString("Ilac_Adi"));
                     details.add(detail);
 
@@ -117,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
                     Dose.setText(detail.getKDozu());
                     max = detail.getKSure();
                     Max.setText(max +" gün") ;
-                    timer = detail.getKAralık();
+                    timer = detail.getKAralik();
                     Range.setText(timer + " saatte 1");
                     String str1 = detail.getIAdi();
                     String cap1 = str1.substring(0, 1).toUpperCase() + str1.substring(1);;
@@ -211,7 +213,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d("mesaj", "stop");
-
     }
 
     @Override

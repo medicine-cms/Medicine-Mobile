@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity
 {
     Button login, signup, forgot;
     EditText username,password;
-    private static String hasta_id, hasta_password;
+    private static String hasta_tc, hasta_password;
 
     // Declaring connection variables
     Connection con;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity
             {
                 Toast.makeText(MainActivity.this , "Anasayfa" , Toast.LENGTH_LONG).show();
                 Intent i = new Intent(MainActivity.this,DoctorActivity.class);
-                i.putExtra("hastaid",String.valueOf(hasta_id));
+                i.putExtra("hastatc",String.valueOf(hasta_tc));
                 MainActivity.this.startActivity(i);
             }
         }
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params)
         {
-            hasta_id = username.getText().toString();
+            hasta_tc = username.getText().toString();
             hasta_password = password.getText().toString();
-            if(hasta_id.trim().equals("")|| hasta_password.trim().equals(""))
+            if(hasta_tc.trim().equals("")|| hasta_password.trim().equals(""))
                 z = "Lütfen T.C No ve Parolanızı Giriniz";
             else
             {
@@ -123,7 +123,8 @@ public class MainActivity extends AppCompatActivity
                     }
                     else
                     {
-                        String query = "select * from HASTA where Hasta_TC_Kimlik_No= '" + hasta_id + "' and Hasta_Password = '"+ hasta_password +"'  ";
+                        String query = "select * from HASTA where Hasta_TC_Kimlik_No= '" + hasta_tc + "' and Hasta_Password = '"
+                                + hasta_password +"'";
                         Statement stmt = con.createStatement();
                         ResultSet rs = stmt.executeQuery(query);
                         if(rs.next())
@@ -150,7 +151,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public static String getVariable() {
-        return hasta_id;
+        return hasta_tc;
     }
     @Override
     protected void onStart() {

@@ -19,7 +19,8 @@ import java.util.Calendar;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    String Name, LName, Pass, Pass2, TC, Birth, Seri ;
+    String Name, LName, Pass, Pass2, Birth, Seri ;
+    Long TC;
     Button login, signup;
     ImageButton pickdate;
     EditText ad, soyad, tc, pass, pass2, seri;
@@ -62,18 +63,19 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 c= Calendar.getInstance();
-                int mYear = c.get(Calendar.DAY_OF_MONTH);
+                int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.YEAR);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
                 dpd = new DatePickerDialog(RegisterActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
-                        birth.setText(mDay + "." + (mMonth+1) +"." + mYear);
+//                        birth.setText(mDay + "." + (mMonth+1) +"." + mYear);
+                        birth.setText(mYear + "." + (mMonth+1) +"." + mDay);
 
                     }
-                }, mDay,mMonth,mYear);
+                }, mYear,mMonth,mDay);
                 dpd.getDatePicker().setMaxDate(c.getTimeInMillis());
                 dpd.show();
             }
@@ -92,12 +94,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Name = ad.getText().toString();
                 LName = soyad.getText().toString();
-                TC = tc.getText().toString();
+                TC = Long.parseLong(tc.getText().toString());
                 Pass = pass.getText().toString();
                 Pass2 = pass2.getText().toString();
                 Birth = birth.getText().toString();
                 Seri = seri.getText().toString();
-                if(TcKimlikNo.Dogrula(TC)==true) {
+                if(TcKimlikNo.Dogrula(TC.toString())==true) {
                     if (Seri.length()==9) {
                         if (Pass.trim().equals("") || Pass2.trim().equals("")) {
                             Toast.makeText(RegisterActivity.this, "Lütfen Parolanızı Giriniz", Toast.LENGTH_LONG).show();
@@ -113,13 +115,18 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Lütfen Doğum Tarihinizi Giriniz", Toast.LENGTH_LONG).show();
 
                         }
+                        else if (Name.contains("ş|ç|ğ|Ş|Ç|Ş") ||LName.contains("ş|ç|ğ|Ş|Ç|Ş") ) {
+                            Toast.makeText(RegisterActivity.this, "Lütfen 'ş', 'ç', 'ğ' Karakterleri Kullanmayınız!", Toast.LENGTH_LONG).show();
+
+                        }
 
                         else {
 
                             try {
                                 con = dbConnector.connectionclass();        // Connect to database
                                 if (con == null) {
-                                    msg = "Check Your Internet Access!";
+                                    msg = "İnternet Bağlantınızı Kontrol Edin!";
+                                    Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 } else {
                                     Statement stmt = con.createStatement();
                                     String query2 = "select * from HASTA where Hasta_TC_Kimlik_No='" +TC+"'";

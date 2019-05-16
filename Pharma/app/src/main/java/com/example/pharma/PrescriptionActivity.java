@@ -2,6 +2,7 @@ package com.example.pharma;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -64,7 +65,7 @@ public class PrescriptionActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
                         Intent i1 = new Intent(PrescriptionActivity.this,DoctorActivity.class);
-                        i1.putExtra("name",String.valueOf(hasta_tc));
+                        i1.putExtra("hastatc",String.valueOf(hasta_tc));
                         startActivity(i1);
                         Toast.makeText(PrescriptionActivity.this, "Anasayfa", Toast.LENGTH_SHORT).show();
                         break;
@@ -90,7 +91,9 @@ public class PrescriptionActivity extends AppCompatActivity {
             con = dbConnector.connectionclass();
             if (con == null)
             {
-                msg = "Check Your Internet Access!";
+                msg = "İnternet Bağlantınızı Kontrol Edin!";
+                Toast.makeText(PrescriptionActivity.this, msg, Toast.LENGTH_SHORT).show();
+
             }
             else
             {
@@ -170,7 +173,6 @@ public class PrescriptionActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d("mesaj", "stop");
-
     }
 
     @Override

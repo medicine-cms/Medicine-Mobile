@@ -1,9 +1,12 @@
 package com.example.pharma;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
                         Intent i1 = new Intent(ProfileActivity.this,DoctorActivity.class);
-                        i1.putExtra("name",String.valueOf(hasta_tc));
+                        i1.putExtra("hastatc",String.valueOf(hasta_tc));
                         startActivity(i1);
                         Toast.makeText(ProfileActivity.this, "Anasayfa", Toast.LENGTH_SHORT).show();
                         break;
@@ -79,15 +82,31 @@ public class ProfileActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener()    {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileActivity.this,MainActivity.class);
-                ProfileActivity.this.startActivity(i);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                builder.setCancelable(false);
+                builder.setMessage("Çıkış Yapmak İstiyor Musunuz?");
+                builder.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(ProfileActivity.this,MainActivity.class);
+                        ProfileActivity.this.startActivity(i);
+                    }
+                });
+                builder.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         newpwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ProfileActivity.this,ForgotPasswordActivity.class);
-                i.putExtra("name",String.valueOf(hasta_tc));
+                i.putExtra("hastatc",String.valueOf(hasta_tc));
                 ProfileActivity.this.startActivity(i);
             }
         });
@@ -97,7 +116,8 @@ public class ProfileActivity extends AppCompatActivity {
             con = dbConnector.connectionclass();        // Connect to database
             if (con == null)
             {
-                msg = "Check Your Internet Access!";
+                msg = "İnternet Bağlantınızı Kontrol Edin!";
+                Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -138,7 +158,6 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.d("mesaj", "stop");
-
     }
 
     @Override
